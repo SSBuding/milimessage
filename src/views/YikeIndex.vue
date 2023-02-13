@@ -9,10 +9,12 @@
       class="bg-video"
     ></video> -->
     <RouterView></RouterView>
+    <FootBar></FootBar>
   </div>
 </template>
 <script setup>
 import TopBar from "@/components/TopBar.vue";
+import FootBar from "@/components/FootBar.vue";
 </script>
 <style lang="less" scoped>
 .wall-index {
@@ -21,7 +23,7 @@ import TopBar from "@/components/TopBar.vue";
   //   position: fixed;
   //   top: 0;
   //   left: 0;
-  //   z-index: 0;
+  //   z-index: -1;
   // }
 }
 </style>

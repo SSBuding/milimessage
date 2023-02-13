@@ -14,14 +14,14 @@ export default defineConfig({
     }
   },
   css: {
+    // css预处理器
     preprocessorOptions: {
       less: {
-        modifyVars: {
-          hack: `true; @import (reference) "${path.resolve('src/styles/common.less')}";`,
-        },
-        javascriptEnabled: true
-      }
-    }
+        charset: false,
+        additionalData: '@import "./src/assets/styles/common.less";',
+      },
+    },
   },
+
 
 })

@@ -1,7 +1,11 @@
 <template>
-  <div>aaa</div>
+  <div class="message">aaa</div>
 </template>
 
 <script setup></script>
 
-<style lang="" scoped></style>
+<style lang="less" scoped>
+.message {
+  min-height: 600px;
+}
+</style>
