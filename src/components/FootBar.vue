@@ -65,6 +65,7 @@
   background: @gray-1;
   padding: 20px;
   box-sizing: border-box;
+  margin-top: 40px;
   .foot-bar-inner {
     width: 1200px;
     margin: 0 auto;

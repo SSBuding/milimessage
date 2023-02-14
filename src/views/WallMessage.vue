@@ -21,7 +21,12 @@
       </span>
     </div>
     <div class="card">
-      <NodeCard></NodeCard>
+      <NoteCard
+        v-for="(_, index) in data"
+        :key="index"
+        :note="_"
+        class="card-inner"
+      ></NoteCard>
     </div>
   </div>
 </template>
@@ -29,10 +34,14 @@
 <script setup>
 import { ref } from "vue";
 import { wallType, label } from "@/utils/data";
-import NodeCard from "@/components/NodeCard.vue";
+import NoteCard from "@/components/NoteCard.vue";
+import { note } from "../../mock/index";
+//console.log(note);
+const { data } = note;
+// console.log(data);
 const id = ref(0);
 const nlabel = ref(-1);
-// 切换label
+
 const selectLabel = (index) => {
   nlabel.value = index;
 };
@@ -73,6 +82,25 @@ const selectLabel = (index) => {
       font-weight: 600;
       border: 1px solid @gray-1;
       border-radius: 16px;
+    }
+  }
+  .card {
+    // display: flex;
+    // flex-wrap: wrap;
+    // padding-top: 28px;
+    // justify-content: center;
+    display: grid;
+    padding-top: 28px;
+    grid-template-columns: repeat(auto-fill, 300px);
+    gap: 12px 6px;
+    justify-content: center;
+    //align-items: center;
+    //border: 1px solid #bfa;
+    padding-left: 56px;
+    padding-right: 56px;
+    .card-inner {
+      justify-self: center;
+      //align-self: center;
     }
   }
 }

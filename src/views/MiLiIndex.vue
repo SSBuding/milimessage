@@ -20,7 +20,7 @@ import FootBar from "@/components/FootBar.vue";
 <style lang="less" scoped>
 .wall-index {
   .bg-video {
-    height: 600px;
+    height: 1000px;
     position: fixed;
     top: 0;
     left: 0;

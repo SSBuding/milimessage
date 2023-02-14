@@ -2,19 +2,19 @@
   <div class="node-card" :style="{ width: width, background: background }">
     <div class="top">
       <p class="time">2022.07.12</p>
-      <p class="label">ceshi</p>
+      <p class="label">{{ label[note.type][note.label] }}</p>
     </div>
-    <p class="message">这是测试段落，作为静态占位测试样式使用</p>
+    <p class="message">{{ note.message }}</p>
     <div class="foot">
       <div class="foot-left">
         <div class="icon">
           <span class="iconfont icon-aixin1"></span>
-          <span class="value">3</span>
+          <span class="value">{{ note.like }}</span>
         </div>
 
         <div class="icon">
           <span class="iconfont icon-liuyan"></span>
-          <span class="value">3</span>
+          <span class="value">{{ note.comment }}</span>
         </div>
       </div>
       <div class="name">米粒</div>
@@ -24,6 +24,8 @@
 
 <script setup>
 import "@/assets/fonts/icon/iconfont.css";
+import { label } from "@/utils/data";
+
 defineProps({
   width: {
     default: "288px",
@@ -31,6 +33,7 @@ defineProps({
   background: {
     default: " rgba(252, 175, 162, 0.3)",
   },
+  note: Object,
 });
 </script>
 
