@@ -6,6 +6,6 @@
 
 <style lang="less" scoped>
 .message {
-  min-height: 600px;
+  min-height: 700px;
 }
 </style>

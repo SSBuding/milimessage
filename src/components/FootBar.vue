@@ -62,75 +62,74 @@
   width: 100%;
   height: 200px;
   background: @gray-1;
-  padding: 0px 204px;
+  padding: 20px;
   box-sizing: border-box;
   .foot-bar-inner {
     width: 1200px;
     margin: 0 auto;
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     p {
       color: rgba(255, 255, 255, 0.5);
     }
-
-    .foot-left {
-      .logo {
-        display: flex;
-        align-items: center;
-
-        .logo-name {
-          width: 80px;
-          height: 28px;
-          font-size: 20px;
-          color: @gray-10;
-          font-weight: 600;
-          padding-left: 10px;
-        }
+  }
+  .foot-left {
+    .logo {
+      display: flex;
+      align-items: center;
+      margin-bottom: 24px;
+      .logo-name {
+        font-size: 20px;
+        color: @gray-10;
+        font-weight: 600;
+        padding-left: 10px;
       }
-      .top-p {
+    }
+    .top-p {
+      font-size: @size-12;
+      padding-bottom: 4px;
+      width: 400px;
+    }
+    .state {
+      font-size: @size-12;
+      padding-top: 30px;
+      padding-bottom: 26px;
+      span {
+        padding-right: 20px;
+      }
+      a {
+        color: rgba(255, 255, 255, 0.5);
+
         font-size: @size-12;
-        padding-bottom: 4px;
-        width: 400px;
       }
-      .state {
+    }
+  }
+  .title {
+    font-size: @size-16;
+    padding-bottom: 12px;
+  }
+  .link {
+    flex: 1;
+    padding: 0 40px;
+    .link-inner {
+      a {
+        color: rgba(255, 255, 255, 0.5);
+        padding-right: 20px;
         font-size: @size-12;
-        padding-bottom: 26px;
-        span {
-          padding-right: 16px;
-        }
-        a {
-          color: rgba(255, 255, 255, 0.5);
-
-          font-size: @size-12;
-        }
       }
     }
-    .title {
-      font-size: @size-16;
-      padding-bottom: 12px;
-    }
-    .link {
-      flex: 1;
-      padding: 0 40px;
-      .link-inner {
-        a {
-          color: rgba(255, 255, 255, 0.5);
-          padding-right: 20px;
-          font-size: @size-12;
-        }
+  }
+  .foot-right {
+    .right-inner {
+      display: flex;
+      img {
+        width: 100px;
+        height: 100px;
+        padding-right: 40px;
       }
-    }
-    .foot-right {
-      .right-inner {
-        display: flex;
-        img {
-          width: 100px;
-          padding-right: 40px;
-        }
-        .ds-title {
-          font-size: @size-12;
-          padding-top: 8px;
-        }
+      .ds-title {
+        font-size: @size-12;
+        padding-top: 8px;
       }
     }
   }

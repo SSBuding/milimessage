@@ -1,13 +1,13 @@
 <template>
   <div class="wall-index">
     <TopBar></TopBar>
-    <!-- <video
+    <video
       src="@/assets/images/qm1.mp4"
       autoplay
       muted
       loop
       class="bg-video"
-    ></video> -->
+    ></video>
     <RouterView></RouterView>
     <FootBar></FootBar>
   </div>
@@ -18,12 +18,12 @@ import FootBar from "@/components/FootBar.vue";
 </script>
 <style lang="less" scoped>
 .wall-index {
-  // .bg-video {
-  //   height: 800px;
-  //   position: fixed;
-  //   top: 0;
-  //   left: 0;
-  //   z-index: -1;
-  // }
+  .bg-video {
+    height: 800px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: -1;
+  }
 }
 </style>
