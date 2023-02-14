@@ -3,7 +3,7 @@ const routes = [
         path: '/',
         name: 'index',
         redirect: '/wall',
-        component: () => import('@/views/YikeIndex.vue'),
+        component: () => import('@/views/MiLiIndex.vue'),
         children: [
             {
                 path: 'wall',

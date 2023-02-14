@@ -6,13 +6,13 @@
           <img src="@/assets/images/mlsg.svg" class="logo-img" />
           <p class="logo-name">米粒时光</p>
         </div>
-        <P class="top-p">
+        <p class="top-p">
           米粒时光是本人独自开发的，为便于与用户交流的留言平台。
-        </P>
-        <P class="top-p">
+        </p>
+        <p class="top-p">
           用户将留言便签贴在留言墙上，用户可以自定义便签颜色和内容属性，不仅可以用于交流，也是一场记录
-        </P>
-        <P class="state">
+        </p>
+        <p class="state">
           <span>作者声明</span>
           <span
             >本网页参考B站up主
@@ -22,7 +22,7 @@
             开发
           </span>
           <span>备案/许可证号暂未申请</span>
-        </P>
+        </p>
       </div>
       <div class="link">
         <p class="title">链接</p>
@@ -59,6 +59,7 @@
 
 <style lang="less" scoped>
 .foot-bar {
+  display: flex;
   width: 100%;
   height: 200px;
   background: @gray-1;
