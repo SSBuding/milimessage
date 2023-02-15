@@ -43,6 +43,7 @@ import MlButton from "./MlButton.vue";
     display: flex;
     justify-content: center;
     align-items: center;
+
     width: 200px;
   }
   .logo-name {

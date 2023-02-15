@@ -36,11 +36,9 @@
     >
       <span class="iconfont icon-tianjia"> </span>
     </div>
-    <MlModal
-      :title="title"
-      :isModal="modal"
-      @change-modal="changeModal"
-    ></MlModal>
+    <MlModal :title="title" :isModal="modal" @change-modal="changeModal">
+      <NewCard></NewCard>
+    </MlModal>
   </div>
 </template>
 
@@ -50,6 +48,7 @@ import { ref, onMounted, onUnmounted } from "vue";
 import { wallType, label } from "@/utils/data";
 import NoteCard from "@/components/NoteCard.vue";
 import MlModal from "@/components/MlModal.vue";
+import NewCard from "@/components/NewCard.vue";
 import { note } from "../../mock/index";
 
 const { data } = note;

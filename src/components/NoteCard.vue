@@ -38,10 +38,6 @@ defineProps({
 </script>
 
 <style lang="less" scoped>
-@font-face {
-  font-family: hanyi;
-  src: url("@/assets/fonts/HYYanKaiW.ttf");
-}
 .node-card {
   height: 240px;
   padding: 10px 20px;
