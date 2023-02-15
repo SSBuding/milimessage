@@ -28,9 +28,19 @@
         class="card-inner"
       ></NoteCard>
     </div>
-    <div class="add" :style="{ bottom: addBottom + 'px' }">
+    <div
+      class="add"
+      :style="{ bottom: addBottom + 'px' }"
+      @click="changeModal"
+      v-show="!modal"
+    >
       <span class="iconfont icon-tianjia"> </span>
     </div>
+    <MlModal
+      :title="title"
+      :isModal="modal"
+      @change-modal="changeModal"
+    ></MlModal>
   </div>
 </template>
 
@@ -39,10 +49,11 @@ import "@/assets/fonts/icon/iconfont.css";
 import { ref, onMounted, onUnmounted } from "vue";
 import { wallType, label } from "@/utils/data";
 import NoteCard from "@/components/NoteCard.vue";
+import MlModal from "@/components/MlModal.vue";
 import { note } from "../../mock/index";
-//console.log(note);
+
 const { data } = note;
-// console.log(data);
+let title = "写留言";
 const id = ref(0);
 const nlabel = ref(-1);
 const addBottom = ref(30);
@@ -64,6 +75,11 @@ function scrollBottom() {
     addBottom.value = 30;
   }
 }
+// 切换弹窗
+let modal = ref(false);
+const changeModal = () => {
+  modal.value = !modal.value;
+};
 onMounted(() => {
   window.addEventListener("scroll", scrollBottom);
 });
