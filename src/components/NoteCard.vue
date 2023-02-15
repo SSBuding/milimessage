@@ -1,7 +1,10 @@
 <template>
-  <div class="node-card" :style="{ width: width, background: background }">
+  <div
+    class="node-card"
+    :style="{ width: width, background: cardColor[note.imgurl] }"
+  >
     <div class="top">
-      <p class="time">2022.07.12</p>
+      <p class="time">{{ dataOne(note.moment) }}</p>
       <p class="label">{{ label[note.type][note.label] }}</p>
     </div>
     <p class="message">{{ note.message }}</p>
@@ -17,21 +20,18 @@
           <span class="value">{{ note.comment }}</span>
         </div>
       </div>
-      <div class="name">米粒</div>
+      <div class="name">{{ note.name }}</div>
     </div>
   </div>
 </template>
 
 <script setup>
 import "@/assets/fonts/icon/iconfont.css";
-import { label } from "@/utils/data";
-
+import { label, cardColor } from "@/utils/data";
+import { dataOne } from "@/utils/mlsg";
 defineProps({
   width: {
     default: "288px",
-  },
-  background: {
-    default: " rgba(252, 175, 162, 0.3)",
   },
   note: Object,
 });
@@ -101,7 +101,6 @@ defineProps({
       font-family: hanyi;
       font-size: 17px;
       color: @gray-2;
-      font-weight: 300;
     }
   }
 }
