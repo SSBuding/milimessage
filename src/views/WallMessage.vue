@@ -22,22 +22,32 @@
     </div>
     <div class="card">
       <NoteCard
-        v-for="(_, index) in data"
+        v-for="(e, index) in data"
         :key="index"
-        :note="_"
+        :note="e"
         class="card-inner"
+        :class="{ cardSelected: index === cardSelected }"
+        @click="selectedCard(index)"
       ></NoteCard>
     </div>
     <div
       class="add"
       :style="{ bottom: addBottom + 'px' }"
-      @click="changeModal"
+      @click="addCard"
       v-show="!modal"
     >
       <span class="iconfont icon-tianjia"> </span>
     </div>
     <MlModal :title="title" :isModal="modal" @change-modal="changeModal">
-      <NewCard :id="id" @change-modal="changeModal"></NewCard>
+      <NewCard
+        :id="id"
+        @change-modal="changeModal"
+        v-if="cardSelected === -1"
+      ></NewCard>
+      <CardDetail
+        v-show="cardSelected !== -1"
+        :card="data[cardSelected]"
+      ></CardDetail>
     </MlModal>
   </div>
 </template>
@@ -49,16 +59,17 @@ import { wallType, label } from "@/utils/data";
 import NoteCard from "@/components/NoteCard.vue";
 import MlModal from "@/components/MlModal.vue";
 import NewCard from "@/components/NewCard.vue";
+import CardDetail from "@/components/CardDetail.vue";
 import { note } from "../../mock/index";
 
 const { data } = note;
-let title = "写留言";
 const id = ref(0);
 const nlabel = ref(-1);
 const addBottom = ref(30);
 const selectLabel = (index) => {
   nlabel.value = index;
 };
+
 //监听页面滚动
 function scrollBottom() {
   // 距离顶部高度
@@ -74,10 +85,30 @@ function scrollBottom() {
     addBottom.value = 30;
   }
 }
+const title = ref("写留言");
+
+// 新建留言
+const addCard = () => {
+  title.value = "写留言";
+  cardSelected.value = -1;
+  changeModal();
+};
 // 切换弹窗
 let modal = ref(false);
 const changeModal = () => {
   modal.value = !modal.value;
+};
+// 选择卡片
+const cardSelected = ref(-1);
+const selectedCard = (index) => {
+  title.value = "";
+  if (cardSelected.value === index) {
+    cardSelected.value = -1;
+    modal.value = false;
+  } else {
+    cardSelected.value = index;
+    modal.value = true;
+  }
 };
 onMounted(() => {
   window.addEventListener("scroll", scrollBottom);
@@ -100,8 +131,10 @@ onUnmounted(() => {
     padding-bottom: @padding-8;
   }
   .sologan {
+    padding-top: 8px;
     color: @gray-2;
     text-align: center;
+    font-family: hanyi;
   }
   .label {
     display: flex;
@@ -116,6 +149,7 @@ onUnmounted(() => {
       color: @gray-2;
       box-sizing: border-box;
       cursor: pointer;
+      font-family: hanyi;
     }
     .lbselected {
       color: @gray-1;
@@ -140,7 +174,11 @@ onUnmounted(() => {
     padding-right: 56px;
     .card-inner {
       justify-self: center;
+      margin: 6px;
       //align-self: center;
+    }
+    .cardSelected {
+      border: 1px solid @primary-color;
     }
   }
   .add {

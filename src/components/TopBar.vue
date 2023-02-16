@@ -51,6 +51,7 @@ import MlButton from "./MlButton.vue";
     color: @gray-1;
     font-weight: 600;
     padding-left: 10px;
+    font-family: hanyi;
   }
   .user {
     width: 200px;

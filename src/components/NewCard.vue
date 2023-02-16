@@ -36,7 +36,7 @@
     <div>
       <p class="title">免责声明</p>
       <p class="mzsm">
-        一刻时光是本人独自开发的，为便于与用户交流的留言平台。请不要利用此平台服务制作、上传、下载、复制、发布、传播或者转载如下内容：<br />
+        该留言墙大部分创意和样式来自于"一刻时光"，原作者为"逸刻"。请不要利用此平台服务制作、上传、下载、复制、发布、传播或者转载如下内容：<br />
         1、反对宪法所确定的基本原则的;<br />
         2、危害国家安全，泄露国家秘密，颠覆国家政权，破坏国家 统一的;<br />
         3、损害国家荣誉和利益的； 4、煽动民族仇恨、民族歧视，破坏民族团结的;<br />
@@ -100,7 +100,7 @@ const closeModal = () => {
       //float: left;
     }
     .colorSelected {
-      border: 1px solid rgba(59, 115, 240, 1);
+      border: 1px solid @primary-color;
     }
   }
   .card-main {
@@ -150,6 +150,7 @@ const closeModal = () => {
       cursor: pointer;
       color: @gray-2;
       transition: @tr;
+      font-family: hanyi;
     }
     .labelSelected {
       background: #ebebeb;
