@@ -11,8 +11,13 @@
       ></p>
     </div>
     <div class="card-main" :style="{ background: cardColor[colorSelected] }">
-      <textarea placeholder="留言..." class="message" maxlength="96"></textarea>
-      <input type="text" placeholder="签名" class="name" />
+      <textarea
+        placeholder="留言..."
+        class="message"
+        maxlength="96"
+        v-model="message"
+      ></textarea>
+      <input type="text" placeholder="签名" class="name" v-model="name" />
     </div>
     <div class="labels">
       <p class="title">选择标签</p>
@@ -42,11 +47,16 @@
         9、含有法律、行政法规禁止的其他内容的信息。
       </p>
     </div>
+    <div class="footbt">
+      <MlButton size="max" nom="secondary" @click="closeModal">丢弃</MlButton>
+      <MlButton size="max" class="submit">确定</MlButton>
+    </div>
   </div>
 </template>
 
 <script setup>
 import { cardColor, cardColor1, label } from "@/utils/data";
+import MlButton from "./MlButton.vue";
 import { ref } from "vue";
 defineProps({
   id: {
@@ -61,11 +71,20 @@ const labelSelected = ref(0);
 const changeLabel = (index) => {
   labelSelected.value = index;
 };
+// 留言信息
+const message = ref("");
+// 签名
+const name = ref("");
+const emit = defineEmits(["change-modal"]);
+const closeModal = () => {
+  emit("change-modal");
+};
 </script>
 
 <style lang="less" scoped>
 .new-card {
-  padding: 0 18px;
+  padding: 0 18px 100px;
+  position: relative;
   .colors {
     display: flex;
     justify-content: start;
@@ -143,6 +162,23 @@ const changeLabel = (index) => {
     padding-top: 10px;
     font-size: 12px;
     color: @gray-3;
+  }
+  .footbt {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    box-sizing: border-box;
+    position: fixed;
+    left: 0;
+    bottom: 52px;
+    background: rgba(255, 255, 255, 0.6);
+    width: 100%;
+    backdrop-filter: blur(10px);
+    .submit {
+      padding-left: 20px;
+      width: 200px;
+    }
   }
 }
 </style>

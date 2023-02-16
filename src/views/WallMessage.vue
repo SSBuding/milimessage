@@ -37,7 +37,7 @@
       <span class="iconfont icon-tianjia"> </span>
     </div>
     <MlModal :title="title" :isModal="modal" @change-modal="changeModal">
-      <NewCard :id="id"></NewCard>
+      <NewCard :id="id" @change-modal="changeModal"></NewCard>
     </MlModal>
   </div>
 </template>

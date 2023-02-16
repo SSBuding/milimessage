@@ -82,7 +82,7 @@ const closeModal = () => {
     }
   }
   .ml-modal-main {
-    height: 80%;
+    height: 100%;
     overflow-y: auto;
     overflow-x: auto;
     padding-bottom: 116px;

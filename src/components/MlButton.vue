@@ -23,6 +23,7 @@ defineProps({
 .ml-button {
   text-align: center;
   border: none;
+  cursor: pointer;
 }
 .max {
   min-width: 100px;
@@ -47,7 +48,7 @@ defineProps({
   color: @gray-10;
 }
 .secondary {
-  background: @gray-10;
+  background: none;
   color: @gray-1;
   border: 1px solid @gray-1;
 }
@@ -57,7 +58,7 @@ defineProps({
   font-weight: 600;
 }
 .csecondary {
-  background: @gray-10;
+  background: none;
   color: @gray-1;
 }
 </style>
