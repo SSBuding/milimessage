@@ -163,6 +163,7 @@ watch(id, () => {
 onMounted(() => {
   window.addEventListener("scroll", scrollBottom);
   getPhoto();
+  //
 });
 onUnmounted(() => {
   window.removeEventListener("scroll", scrollBottom);
