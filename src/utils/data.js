@@ -34,6 +34,23 @@ export const cardColor1 = [
     " rgba(146, 230, 245, 1)",
     " rgba(168, 237, 138, 1)",
     " rgba(202, 167, 247, 1)",
-   
 
+
+]
+// 头像背景色
+export const portrait = [
+    'linear-gradient(180deg,#ffa9d9 0%,#eb3d3d 100%',
+    'linear-gradient(180deg,#ffa7e8 0%,#f026a8 100%',
+    'linear-gradient(180deg,#f5a8ff 0%,#bf23e5 100%',
+    'linear-gradient(180deg,#dfa1ff 0%,#9a36f0 100%',
+    'linear-gradient(180deg,#c9aaff 0%,#6d3cf5 100%',
+    'linear-gradient(180deg,#9eaaff 0%,#3846f4 100%',
+    'linear-gradient(180deg,#8cd8ff 0%,#2a6af0 100%',
+    'linear-gradient(180deg,#7be7ff 0%,#1e85e2 100%',
+    'linear-gradient(180deg,#92fdff 0%,#14b2dd 100%',
+    'linear-gradient(180deg,#89fedb 0%,#18c997 100%',
+    'linear-gradient(180deg,#d7ffa7 0%,#5ed52a 100%',
+    'linear-gradient(180deg,#ffed48 0%,#fd9e16 100%',
+    'linear-gradient(180deg,#ffdc83 0%,#f88816 100%',
+    'linear-gradient(180deg,#ffba8d 0%,#eb6423 100%',
 ]

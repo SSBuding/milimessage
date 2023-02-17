@@ -5,6 +5,7 @@
   >
     <div class="top">
       <p class="time">{{ dataOne(note.moment) }}</p>
+
       <p class="label">{{ label[note.type][note.label] }}</p>
     </div>
     <p class="message">{{ note.message }}</p>

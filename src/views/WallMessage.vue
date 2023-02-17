@@ -44,10 +44,7 @@
         @change-modal="changeModal"
         v-if="cardSelected === -1"
       ></NewCard>
-      <CardDetail
-        v-show="cardSelected !== -1"
-        :card="data[cardSelected]"
-      ></CardDetail>
+      <CardDetail v-else :note="data[cardSelected]"></CardDetail>
     </MlModal>
   </div>
 </template>
@@ -101,7 +98,7 @@ const changeModal = () => {
 // 选择卡片
 const cardSelected = ref(-1);
 const selectedCard = (index) => {
-  title.value = "";
+  title.value = "详情";
   if (cardSelected.value === index) {
     cardSelected.value = -1;
     modal.value = false;
@@ -110,6 +107,7 @@ const selectedCard = (index) => {
     modal.value = true;
   }
 };
+
 onMounted(() => {
   window.addEventListener("scroll", scrollBottom);
 });
