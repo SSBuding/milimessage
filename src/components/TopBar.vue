@@ -5,8 +5,18 @@
       <p class="logo-name">米粒时光</p>
     </div>
     <div class="menu">
-      <MlButton nom="cprimary" class="menu-message">留言墙</MlButton>
-      <MlButton nom="csecondary" class="menu-photo">照片墙</MlButton>
+      <MlButton
+        :nom="wallId == 0 ? 'cprimary' : 'csecondary'"
+        class="menu-message"
+        @click="changeWall(0)"
+        >留言墙</MlButton
+      >
+      <MlButton
+        :nom="wallId == 1 ? 'cprimary' : 'csecondary'"
+        class="menu-photo"
+        @click="changeWall(1)"
+        >照片墙</MlButton
+      >
     </div>
     <div class="user">
       <div class="user-head"></div>
@@ -16,6 +26,22 @@
 
 <script setup>
 import MlButton from "./MlButton.vue";
+import { useRoute, useRouter } from "vue-router";
+
+import { computed } from "vue";
+const route = useRoute();
+const router = useRouter();
+const wallId = computed(() => {
+  return route.query.id;
+});
+// 切换墙
+const changeWall = (e) => {
+  router.push({
+    query: {
+      id: e,
+    },
+  });
+};
 </script>
 
 <style lang="less" scoped>

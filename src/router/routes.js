@@ -2,7 +2,7 @@ const routes = [
     {
         path: '/',
         name: 'index',
-        redirect: '/wall',
+        redirect: '/wall?id=0',
         component: () => import('@/views/MiLiIndex.vue'),
         children: [
             {

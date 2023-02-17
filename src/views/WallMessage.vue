@@ -20,7 +20,7 @@
         {{ e }}
       </span>
     </div>
-    <div class="card">
+    <div class="card" v-show="id == 0">
       <NoteCard
         v-for="(e, index) in data"
         :key="index"
@@ -29,6 +29,14 @@
         :class="{ cardSelected: index === cardSelected }"
         @click="selectedCard(index)"
       ></NoteCard>
+    </div>
+    <div class="photo" v-show="id == 1">
+      <PhotoCard
+        :photo="e"
+        class="photo-card"
+        v-for="(e, index) in photo.data"
+        :key="index"
+      ></PhotoCard>
     </div>
     <div
       class="add"
@@ -51,16 +59,25 @@
 
 <script setup>
 import "@/assets/fonts/icon/iconfont.css";
-import { ref, onMounted, onUnmounted } from "vue";
+import { ref, computed, onMounted, onUnmounted } from "vue";
 import { wallType, label } from "@/utils/data";
+// import { getAssetsFile } from "@/utils/imgurl";
 import NoteCard from "@/components/NoteCard.vue";
+import PhotoCard from "@/components/PhotoCard.vue";
 import MlModal from "@/components/MlModal.vue";
 import NewCard from "@/components/NewCard.vue";
 import CardDetail from "@/components/CardDetail.vue";
-import { note } from "../../mock/index";
+import { note, photo } from "../../mock/index";
+import { useRoute } from "vue-router";
+const route = useRoute();
+// 图片路径
 
+// 留言墙和照片墙的切换id
+const id = computed(() => {
+  return route.query.id;
+});
 const { data } = note;
-const id = ref(0);
+
 const nlabel = ref(-1);
 const addBottom = ref(30);
 const selectLabel = (index) => {
@@ -178,6 +195,17 @@ onUnmounted(() => {
     .cardSelected {
       border: 1px solid @primary-color;
     }
+  }
+  .photo {
+    width: 88%;
+    margin: 0 auto;
+    columns: 6;
+    column-gap: @padding-4;
+  }
+  .photo-card {
+    //width: 200px;
+    margin-top: @padding-4;
+    break-inside: avoid;
   }
   .add {
     width: 56px;
