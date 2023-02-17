@@ -36,6 +36,7 @@
         class="photo-card"
         v-for="(e, index) in photo.data"
         :key="index"
+        @click="selectedCard(index)"
       ></PhotoCard>
     </div>
     <div
@@ -54,13 +55,18 @@
       ></NewCard>
       <CardDetail v-else :note="data[cardSelected]"></CardDetail>
     </MlModal>
-    <MlViewer></MlViewer>
+    <MlViewer
+      :isView="view"
+      :photos="photoArr"
+      :nowNumber="cardSelected"
+      @view-switch="viewSwitch"
+    ></MlViewer>
   </div>
 </template>
 
 <script setup>
 import "@/assets/fonts/icon/iconfont.css";
-import { ref, computed, onMounted, onUnmounted } from "vue";
+import { ref, reactive, computed, onMounted, onUnmounted, watch } from "vue";
 import { wallType, label } from "@/utils/data";
 // import { getAssetsFile } from "@/utils/imgurl";
 import NoteCard from "@/components/NoteCard.vue";
@@ -72,7 +78,6 @@ import CardDetail from "@/components/CardDetail.vue";
 import { note, photo } from "../../mock/index";
 import { useRoute } from "vue-router";
 const route = useRoute();
-// 图片路径
 
 // 留言墙和照片墙的切换id
 const id = computed(() => {
@@ -102,17 +107,21 @@ function scrollBottom() {
   }
 }
 const title = ref("写留言");
-
+// 图片预览
+const view = ref(false);
 // 新建留言
 const addCard = () => {
   title.value = "写留言";
   cardSelected.value = -1;
-  changeModal();
+  modal.value = true;
 };
 // 切换弹窗
 let modal = ref(false);
 const changeModal = () => {
-  modal.value = !modal.value;
+  modal.value = false;
+  if (id.value == 1) {
+    view.value = false;
+  }
 };
 // 选择卡片
 const cardSelected = ref(-1);
@@ -121,14 +130,39 @@ const selectedCard = (index) => {
   if (cardSelected.value === index) {
     cardSelected.value = -1;
     modal.value = false;
+    if (id.value == 1) {
+      view.value = false;
+    }
   } else {
     cardSelected.value = index;
     modal.value = true;
+    if (id.value == 1) {
+      view.value = true;
+    }
   }
 };
-
+const photoArr = reactive([]);
+const getPhoto = () => {
+  for (let i = 0; i < photo.data.length; i++) {
+    photoArr.push(photo.data[i].imgurl);
+  }
+};
+const viewSwitch = (e) => {
+  if (e == 0) {
+    cardSelected.value--;
+  } else {
+    cardSelected.value++;
+  }
+};
+watch(id, () => {
+  modal.value = false;
+  nlabel.value = -1;
+  view.value = false;
+  cardSelected.value = -1;
+});
 onMounted(() => {
   window.addEventListener("scroll", scrollBottom);
+  getPhoto();
 });
 onUnmounted(() => {
   window.removeEventListener("scroll", scrollBottom);

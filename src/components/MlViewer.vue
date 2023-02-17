@@ -1,24 +1,76 @@
 <template>
-  <div class="ml-viewer">
-    <div class="bg"></div>
-    <div class="viewer-photo">
-      <img :src="getAssetsFile('1.png')" />
+  <Transition name="view">
+    <div class="ml-viewer" v-if="isView">
+      <div class="bg"></div>
+      <div class="viewer-photo">
+        <img :src="getAssetsFile(`${photos[nowNumber]}.png`)" />
+      </div>
+      <div
+        class="switch sw-left"
+        @click="changeNumber(0)"
+        v-show="nowNumber > 0"
+      >
+        <span class="iconfont icon-xiangzuo"></span>
+      </div>
+      <div
+        class="switch sw-right"
+        @click="changeNumber(1)"
+        v-show="nowNumber < photos.length - 1"
+      >
+        <span class="iconfont icon-xiangyou"></span>
+      </div>
     </div>
-    <div class="switch sw-left">
-      <span class="iconfont icon-xiangzuo"></span>
-    </div>
-    <div class="switch sw-right">
-      <span class="iconfont icon-xiangyou"></span>
-    </div>
-  </div>
+  </Transition>
 </template>
 
 <script setup>
 import "@/assets/fonts/icon/iconfont.css";
 import { getAssetsFile } from "@/utils/imgurl";
+import { computed, toRef } from "vue";
+
+defineProps({
+  photos: {
+    default: [],
+  },
+  nowNumber: {
+    type: Number,
+    default: 0,
+  },
+  isView: {
+    default: false,
+  },
+});
+const emit = defineEmits(["view-switch"]);
+const changeNumber = (e) => {
+  emit("view-switch", e);
+};
 </script>
 
 <style lang="less" scoped>
+.view {
+  &-enter {
+    &-from {
+      opacity: 0;
+    }
+    &-active {
+      transition: @tr ease-out;
+    }
+    &-to {
+      opacity: 1;
+    }
+  }
+  &-leave {
+    &-from {
+      opacity: 1;
+    }
+    &-active {
+      transition: @tr ease-in;
+    }
+    &-to {
+      opacity: 0;
+    }
+  }
+}
 .ml-viewer {
   position: fixed;
   top: 0;
