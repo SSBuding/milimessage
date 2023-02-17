@@ -56,7 +56,7 @@ export const photo = Mock.mock({
         // 举报
         "report|0-20": 0,
         // 类型
-        "type": 0
+        "type": 1
     }]
 })
 // 评论

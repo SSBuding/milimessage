@@ -48,10 +48,10 @@ defineProps({
 <style lang="less" scoped>
 .card-detail {
   position: relative;
-  padding: 0 @padding-20;
+  padding: @padding-20;
   .top-bt {
     position: fixed;
-    top: 0;
+    top: 30px;
     left: 0;
     padding: @padding-20;
     display: flex;
@@ -67,6 +67,7 @@ defineProps({
       cursor: pointer;
     }
   }
+
   .form {
     .message {
       background: none;
@@ -82,6 +83,7 @@ defineProps({
       display: flex;
       padding-top: 6px;
       justify-content: space-between;
+      align-items: center;
     }
     .name {
       width: 200px;

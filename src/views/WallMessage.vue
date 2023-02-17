@@ -54,6 +54,7 @@
       ></NewCard>
       <CardDetail v-else :note="data[cardSelected]"></CardDetail>
     </MlModal>
+    <MlViewer></MlViewer>
   </div>
 </template>
 
@@ -66,6 +67,7 @@ import NoteCard from "@/components/NoteCard.vue";
 import PhotoCard from "@/components/PhotoCard.vue";
 import MlModal from "@/components/MlModal.vue";
 import NewCard from "@/components/NewCard.vue";
+import MlViewer from "@/components/MlViewer.vue";
 import CardDetail from "@/components/CardDetail.vue";
 import { note, photo } from "../../mock/index";
 import { useRoute } from "vue-router";
@@ -201,11 +203,12 @@ onUnmounted(() => {
     margin: 0 auto;
     columns: 6;
     column-gap: @padding-4;
+    padding-top: 28px;
   }
   .photo-card {
     //width: 200px;
     margin-top: @padding-4;
-    break-inside: avoid;
+    // break-inside: avoid;
   }
   .add {
     width: 56px;
