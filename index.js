@@ -5,8 +5,9 @@ const path = require('path')
 const ejs = require('ejs')
 
 const config = require('./config/default')
-
-
+// 引入路由
+const router = require(('./routes/index'))
+// require(('./routes/files'))(app)
 const app = express()
 
 // 获取静态路径
@@ -45,9 +46,10 @@ app.set("views", path.resolve(__dirname, "views"))
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
-// 引入路由
-require(('./routes/index'))(app)
-// require(('./routes/files'))(app)
+// 挂载全局路由
+app.use('/', router)
+
+
 
 // 监听端口
 app.listen(config.port, () => {
