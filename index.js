@@ -1,13 +1,13 @@
 const express = require('express')
 const path = require('path')
 
-// 解析html
-const ejs = require('ejs')
-
+// 引入配置
 const config = require('./config/default')
 // 引入路由
 const router = require(('./routes/index'))
 // require(('./routes/files'))(app)
+
+// 实例
 const app = express()
 
 // 获取静态路径
@@ -37,7 +37,7 @@ app.use('*', function (req, res, next) {
 })
 
 
-// 加入html视图
+// 解析html视图
 app.set("view engine", "ejs")
 // 配置模板的路径
 app.set("views", path.resolve(__dirname, "views"))
