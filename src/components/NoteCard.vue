@@ -28,6 +28,7 @@
 
 <script setup>
 import "@/assets/fonts/icon/iconfont.css";
+
 import { label, cardColor } from "@/utils/data";
 import { dataOne } from "@/utils/mlsg";
 defineProps({

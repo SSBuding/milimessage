@@ -3,7 +3,11 @@ import { defineStore } from 'pinia'
 export const useStore = defineStore('main', {
 
     state: () => ({
-        message: 'Hello World',
+        user: '',
     }),
-    // ...
+    actions: {
+        getUser(n) {
+            this.user = n
+        }
+    }
 })

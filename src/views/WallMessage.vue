@@ -52,6 +52,7 @@
         :id="id"
         @change-modal="changeModal"
         v-if="cardSelected === -1"
+        @click-bt="clickBt"
       ></NewCard>
       <CardDetail v-else :note="data[cardSelected]"></CardDetail>
     </MlModal>
@@ -122,6 +123,9 @@ const changeModal = () => {
   if (id.value == 1) {
     view.value = false;
   }
+};
+const clickBt = (e) => {
+  console.log(e);
 };
 // 选择卡片
 const cardSelected = ref(-1);

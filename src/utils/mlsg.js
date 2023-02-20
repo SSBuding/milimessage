@@ -13,3 +13,17 @@ export const dataOne = (e) => {
     let dates = Y + '.' + M + '.' + D;
     return dates
 }
+
+export const getObjectURL = (file) => {
+    let url = null
+    let binaryData = [];
+    binaryData.push(file);
+    if (window.createObjectURL != undefined) {
+        url = window.createObjectURL(file)
+    } else if (window.URL != undefined) {
+        url = window.URL.createObjectURL(new Blob(binaryData))
+    } else if (window.webkitURL != undefined) {
+        url = window.webkitURL.createObjectURL(file)
+    }
+    return url
+}

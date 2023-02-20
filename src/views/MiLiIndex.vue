@@ -15,6 +15,22 @@
 <script setup>
 import TopBar from "@/components/TopBar.vue";
 import FootBar from "@/components/FootBar.vue";
+
+import { signIpApi } from "@/api";
+import { onMounted } from "vue";
+import { useStore } from "@/store";
+const store = useStore();
+const getUser = () => {
+  signIpApi().then((res) => {
+    // console.log(res);
+    const user = {
+      id: res.ip,
+    };
+    store.getUser(user);
+  });
+};
+
+onMounted(() => getUser());
 </script>
 
 <style lang="less" scoped>

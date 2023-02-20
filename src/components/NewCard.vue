@@ -1,6 +1,6 @@
 <template>
   <div class="new-card">
-    <div class="colors">
+    <div class="colors" v-show="id == 0">
       <p
         class="color-li"
         v-for="(e, index) in cardColor1"
@@ -10,7 +10,27 @@
         @click="changeColor(index)"
       ></p>
     </div>
-    <div class="card-main" :style="{ background: cardColor[colorSelected] }">
+    <!--  判断 -->
+    <div class="add-photo" v-if="id == 1">
+      <input
+        type="file"
+        name="file"
+        id="file"
+        multiple="multiple"
+        @change="showPhoto"
+      />
+      <div class="add-bt" v-if="url == ''">
+        <span class="iconfont icon-tianjia"></span>
+      </div>
+      <div class="change-bt" v-if="url != ''">
+        <span class="iconfont icon-warning"></span>
+      </div>
+      <div class="photo-div"><img :src="url" /></div>
+    </div>
+    <div
+      class="card-main"
+      :style="{ background: id == 0 ? cardColor[colorSelected] : cardColor[5] }"
+    >
       <textarea
         placeholder="留言..."
         class="message"
@@ -49,20 +69,27 @@
     </div>
     <div class="footbt">
       <MlButton size="max" nom="secondary" @click="closeModal">丢弃</MlButton>
-      <MlButton size="max" class="submit">确定</MlButton>
+      <MlButton size="max" class="submit" @click="submit">确定</MlButton>
     </div>
   </div>
 </template>
 
 <script setup>
+import "@/assets/fonts/icon/iconfont.css";
 import { cardColor, cardColor1, label } from "@/utils/data";
+import { getObjectURL } from "@/utils/mlsg";
 import MlButton from "./MlButton.vue";
 import { ref } from "vue";
-defineProps({
+import { useStore } from "@/store";
+import { insertWallApi } from "@/api";
+const store = useStore();
+const user = store.user;
+const props = defineProps({
   id: {
     defualt: 0,
   },
 });
+const url = ref("");
 const colorSelected = ref(0);
 const changeColor = (index) => {
   colorSelected.value = index;
@@ -75,9 +102,37 @@ const changeLabel = (index) => {
 const message = ref("");
 // 签名
 const name = ref("");
-const emit = defineEmits(["change-modal"]);
+const emit = defineEmits(["change-modal", "click-bt"]);
 const closeModal = () => {
   emit("change-modal");
+};
+
+const submit = () => {
+  if (!name.value) {
+    name.value = "匿名";
+  }
+  let data = {
+    type: props.id,
+    message: message.value,
+    name: name.value,
+    userId: user.id,
+    moment: new Date(),
+    label: labelSelected.value,
+    color: 5,
+    imgurl: "",
+  };
+  if (message.value && props.id == 0) {
+    data.color = colorSelected.value;
+    insertWallApi(data).then(() => {
+      message.value = "";
+      emit("click-bt", data);
+    });
+  }
+};
+const showPhoto = () => {
+  let aa = getObjectURL(document.getElementById("file").files[0]);
+
+  url.value = aa;
 };
 </script>
 
@@ -179,6 +234,58 @@ const closeModal = () => {
     .submit {
       padding-left: 20px;
       width: 200px;
+    }
+  }
+  .add-photo {
+    padding-bottom: 20px;
+    position: relative;
+    #file {
+      position: absolute;
+      z-index: 10;
+      top: -10px;
+      height: 74px;
+      width: 64px;
+      opacity: 0;
+      cursor: pointer;
+    }
+    .add-bt {
+      width: 64px;
+      height: 64px;
+      border: 1px solid @gray-3;
+      border-radius: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+    .icon-tianjia {
+      font-size: 24px;
+    }
+  }
+  .photo-div {
+    max-height: 200px;
+    width: 100%;
+    background: #f0f0f0;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    img {
+      width: 100%;
+    }
+  }
+  .change-bt {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .icon-warning {
+      color: #fff;
     }
   }
 }
