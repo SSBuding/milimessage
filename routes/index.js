@@ -32,4 +32,13 @@ router.post('/findwallpage', (req, res) => {
 router.post('/findcommentpage', (req, res) => {
     controller.findCommentPage(req, res)
 })
+// 用户进入进行ip登记
+router.post('/signip', (req, res) => {
+    let ip = req.ip
+    res.send({
+        code: 200,
+        ip: ip
+    })
+})
+router
 module.exports = router

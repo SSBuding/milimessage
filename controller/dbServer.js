@@ -14,7 +14,7 @@ exports.insertWall = async (req, res) => {
 }
 
 // 新建反馈
-exports.insertFeedback = async (res, req) => {
+exports.insertFeedback = async (req, res) => {
     const data = req.body
     await db.insertFeedback([data.wallId, data.userId, data.type, data.moment])
         .then((result) => {
@@ -26,7 +26,7 @@ exports.insertFeedback = async (res, req) => {
 }
 
 // 新建评论
-exports.insertComment = async (res, req) => {
+exports.insertComment = async (req, res) => {
     const data = req.body
     await db.insertComment([data.wallId, data.userId, data.imgurl, data.moment, data.comment, data.name])
         .then((result) => {
@@ -37,7 +37,7 @@ exports.insertComment = async (res, req) => {
         })
 }
 // 删除墙
-exports.deleteWall = async (res, req) => {
+exports.deleteWall = async (req, res) => {
     const data = req.body
     // if (data.imgurl) {
     //     Mkdir.delFiles('data/' + data.imgurl)
@@ -51,7 +51,7 @@ exports.deleteWall = async (res, req) => {
         })
 }
 // 删除反馈
-exports.deleteFeedback = async (res, req) => {
+exports.deleteFeedback = async (req, res) => {
     const data = req.body
 
     await db.deleteFeedback(data.id)
@@ -63,7 +63,7 @@ exports.deleteFeedback = async (res, req) => {
         })
 }
 // 删除评论
-exports.deleteComment = async (res, req) => {
+exports.deleteComment = async (req, res) => {
     const data = req.body
 
     await db.deleteComment(data.id)
