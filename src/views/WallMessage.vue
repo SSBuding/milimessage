@@ -34,9 +34,9 @@
       <PhotoCard
         :photo="e"
         class="photo-card"
-        v-for="(e, index) in photo.data"
+        v-for="(e, index) in cards"
         :key="index"
-        @click="selectedCard(index)"
+        @to-detail="selectedCard(index)"
       ></PhotoCard>
     </div>
     <!-- 卡片状态 -->
@@ -90,14 +90,14 @@ import {
   nextTick,
 } from "vue";
 import { wallType, label, none } from "@/utils/data";
-// import { getAssetsFile } from "@/utils/imgurl";
+
 import NoteCard from "@/components/NoteCard.vue";
 import PhotoCard from "@/components/PhotoCard.vue";
 import MlModal from "@/components/MlModal.vue";
 import NewCard from "@/components/NewCard.vue";
 import MlViewer from "@/components/MlViewer.vue";
 import CardDetail from "@/components/CardDetail.vue";
-import { photo } from "../../mock/index";
+
 import lottie from "lottie-web";
 import loading from "@/assets/images/reveal-loading.json";
 import { useRoute } from "vue-router";

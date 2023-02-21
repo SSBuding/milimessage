@@ -16,7 +16,8 @@
         type="file"
         name="file"
         id="file"
-        multiple="multiple"
+        accept="image/*"
+        multiple="true"
         @change="showPhoto"
       />
       <div class="add-bt" v-if="url == ''">
@@ -81,7 +82,7 @@ import { getObjectURL } from "@/utils/mlsg";
 import MlButton from "./MlButton.vue";
 import { ref, inject } from "vue";
 import { useStore } from "@/store";
-import { insertWallApi } from "@/api";
+import { insertWallApi, profileApi } from "@/api";
 const $message = inject("$message");
 const store = useStore();
 const user = store.user;
@@ -140,12 +141,49 @@ const submit = () => {
 
       $message({ type: "success", message: "感谢您的记录！" });
     });
+  } else if (props.id == 1 && url.value) {
+    updatePhoto(data);
   }
 };
 const showPhoto = () => {
   let aa = getObjectURL(document.getElementById("file").files[0]);
 
   url.value = aa;
+};
+
+// 图片提交
+const updatePhoto = (data) => {
+  let file = document.getElementById("file");
+  if (file.files.length > 0) {
+    let formData = new FormData();
+    formData.append("file", file.files[0]);
+    profileApi(formData).then((res) => {
+      data.imgurl = res;
+      insertWallApi(data).then((result) => {
+        let cardData = {
+          type: props.id,
+          message: message.value,
+          name: name.value,
+          userId: user.id,
+          moment: new Date(),
+          label: labelSelected.value,
+          color: 5,
+          imgurl: data.imgurl,
+
+          id: result.message.insertId,
+          islike: [{ count: 0 }],
+          like: [{ count: 0 }],
+          comcount: [{ count: 0 }],
+          report: [{ count: 0 }],
+          revoke: [{ count: 0 }],
+        };
+        emit("click-bt", cardData);
+        message.value = "";
+
+        $message({ type: "success", message: "感谢您的记录！" });
+      });
+    });
+  }
 };
 </script>
 

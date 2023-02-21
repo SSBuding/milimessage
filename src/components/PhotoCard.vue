@@ -1,23 +1,51 @@
 <template>
   <div class="ml-photo-card">
-    <img :src="getAssetsFile(`${photo.imgurl}.png`)" alt="" class="photo-img" />
-    <div class="photo bg"></div>
+    <!-- <img :src="getAssetsFile(`${photo.imgurl}.png`)" alt="" class="photo-img" /> -->
+    <img :src="baseUrl + photo.imgurl" alt="" class="photo-img" />
+    <div class="photo bg" @click="toDetail"></div>
     <div class="photo-like">
-      <span class="iconfont icon-aixin1"></span>
-      <span class="like-data">{{ photo.like }}</span>
+      <span
+        class="iconfont icon-aixin1"
+        @click="clickLike"
+        :class="{ islike: photo.like[0].count > 0 }"
+      ></span>
+      <span class="like-data">{{ photo.like[0].count }}</span>
     </div>
   </div>
 </template>
 
 <script setup>
 import "@/assets/fonts/icon/iconfont.css";
-import { label, cardColor } from "@/utils/data";
-import { getAssetsFile } from "@/utils/imgurl";
-defineProps({
+//import { label, cardColor } from "@/utils/data";
+// import { getAssetsFile } from "@/utils/imgurl";
+import { baseUrl } from "@/utils/env";
+import { insertFeedbackApi } from "@/api";
+import { useStore } from "@/store";
+const store = useStore();
+const user = store.user;
+const props = defineProps({
   photo: {
     default: {},
   },
 });
+const emit = defineEmits(["to-detail"]);
+const toDetail = () => {
+  emit("to-detail");
+};
+const clickLike = () => {
+  if (props.photo.islike[0].count == 0) {
+    let data = {
+      wallId: props.photo.id,
+      userId: user.id,
+      type: 0,
+      moment: new Date(),
+    };
+    insertFeedbackApi(data).then(() => {
+      props.photo.like[0].count++;
+      props.photo.islike[0].count++;
+    });
+  }
+};
 </script>
 
 <style lang="less" scoped>
@@ -65,6 +93,9 @@ defineProps({
     .photo-like {
       opacity: 1;
     }
+  }
+  .islike {
+    color: @like;
   }
 }
 </style>

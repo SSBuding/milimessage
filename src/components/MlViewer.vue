@@ -3,7 +3,7 @@
     <div class="ml-viewer" v-if="isView">
       <div class="bg"></div>
       <div class="viewer-photo">
-        <img :src="getAssetsFile(`${photos[nowNumber]}.png`)" />
+        <img :src="baseUrl + photos[nowNumber]" />
       </div>
       <div
         class="switch sw-left"
@@ -25,9 +25,9 @@
 
 <script setup>
 import "@/assets/fonts/icon/iconfont.css";
-import { getAssetsFile } from "@/utils/imgurl";
+// import { getAssetsFile } from "@/utils/imgurl";
 // import { computed, toRef } from "vue";
-
+import { baseUrl } from "@/utils/env";
 defineProps({
   photos: {
     default: [],
