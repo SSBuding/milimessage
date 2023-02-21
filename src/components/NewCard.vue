@@ -124,9 +124,20 @@ const submit = () => {
   };
   if (message.value && props.id == 0) {
     data.color = colorSelected.value;
-    insertWallApi(data).then(() => {
+    insertWallApi(data).then((res) => {
+      let cardData = {
+        ...data,
+        color: colorSelected.value,
+        id: res.message.insertId,
+        islike: [{ count: 0 }],
+        like: [{ count: 0 }],
+        comcount: [{ count: 0 }],
+        report: [{ count: 0 }],
+        revoke: [{ count: 0 }],
+      };
+      emit("click-bt", cardData);
       message.value = "";
-      emit("click-bt", data);
+
       $message({ type: "success", message: "感谢您的记录！" });
     });
   }

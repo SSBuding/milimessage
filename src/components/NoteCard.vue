@@ -1,7 +1,7 @@
 <template>
   <div
     class="node-card"
-    :style="{ width: width, background: cardColor[note.imgurl] }"
+    :style="{ width: width, background: cardColor[note.color] }"
   >
     <div class="top">
       <p class="time">{{ dataOne(note.moment) }}</p>
@@ -12,8 +12,11 @@
     <div class="foot">
       <div class="foot-left">
         <div class="icon">
-          <span class="iconfont icon-aixin1"></span>
-          <span class="value">{{ note.like }}</span>
+          <span
+            class="iconfont icon-aixin1"
+            :class="{ islike: note.like[0].count > 0 }"
+          ></span>
+          <span class="value">{{ note.like[0].count }}</span>
         </div>
 
         <div class="icon">
@@ -93,6 +96,9 @@ defineProps({
         &:hover {
           color: @like;
         }
+      }
+      .islike {
+        color: @like;
       }
     }
     .name {

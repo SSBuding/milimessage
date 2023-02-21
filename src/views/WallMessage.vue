@@ -22,7 +22,7 @@
     </div>
     <div class="card" v-show="id == 0">
       <NoteCard
-        v-for="(e, index) in note"
+        v-for="(e, index) in cards"
         :key="index"
         :note="e"
         class="card-inner"
@@ -101,19 +101,32 @@ import { photo } from "../../mock/index";
 import lottie from "lottie-web";
 import loading from "@/assets/images/reveal-loading.json";
 import { useRoute } from "vue-router";
+import { useStore } from "@/store";
+
+import { findWallPageApi } from "@/api";
+const store = useStore();
 const route = useRoute();
-const note = ref("");
+
+const cards = ref([]);
+const page = ref(1);
+const pagesize = ref(8);
 // 是否加载中
 const isOk = ref(-1);
 // 留言墙和照片墙的切换id
 const id = computed(() => {
   return route.query.id;
 });
+const user = computed(() => {
+  return store.user;
+});
 
 const nlabel = ref(-1);
 const addBottom = ref(30);
 const selectLabel = (index) => {
   nlabel.value = index;
+  cards.value = [];
+  page.value = 1;
+  getWallCard(id.value);
 };
 
 //监听页面滚动
@@ -129,6 +142,9 @@ function scrollBottom() {
     addBottom.value = scrollTop + clientHeight + 230 - scrollHeight;
   } else {
     addBottom.value = 30;
+  }
+  if (scrollTop + clientHeight == scrollHeight) {
+    getWallCard(id.value);
   }
 }
 const title = ref("写留言");
@@ -150,6 +166,8 @@ const changeModal = () => {
 };
 const clickBt = (e) => {
   //console.log(e);
+  cards.value.unshift(e);
+  changeModal();
 };
 // 选择卡片
 const cardSelected = ref(-1);
@@ -170,11 +188,7 @@ const selectedCard = (index) => {
   }
 };
 const photoArr = reactive([]);
-const getPhoto = () => {
-  for (let i = 0; i < photo.data.length; i++) {
-    photoArr.push(photo.data[i].imgurl);
-  }
-};
+
 const viewSwitch = (e) => {
   if (e == 0) {
     cardSelected.value--;
@@ -188,6 +202,52 @@ watch(id, () => {
   view.value = false;
   cardSelected.value = -1;
 });
+// 获取卡片
+const getWallCard = (id) => {
+  if (page.value > 0) {
+    isOk.value = -1;
+    let data = {
+      type: id,
+      page: page.value,
+      pagesize: pagesize.value,
+      userId: user.id,
+      label: nlabel.value,
+    };
+    findWallPageApi(data).then((res) => {
+      cards.value = cards.value.concat(res.message);
+      if (res.message.length) {
+        page.value++;
+      } else {
+        page.value = 0;
+      }
+      setTimeout(() => {
+        if (cards.value.length > 0) {
+          isOk.value = 1;
+          if (page.value == 0) {
+            isOk.value = 2;
+          }
+        } else {
+          isOk.value = 0;
+        }
+      }, 10);
+
+      if (id == 1) {
+        for (let i = 0; i < cards.value.length; i++) {
+          photoArr.push(cards.value[i].imgurl);
+        }
+      }
+    });
+  }
+};
+const getUser = () => {
+  let timer = setInterval(() => {
+    if (user.value) {
+      clearInterval(timer);
+      getWallCard(id.value);
+    }
+  }, 10);
+};
+
 const loadingHandle = () => {
   if (isOk.value === -1) {
     nextTick(async () => {
@@ -205,8 +265,9 @@ const loadingHandle = () => {
 
 onMounted(() => {
   window.addEventListener("scroll", scrollBottom);
-  getPhoto();
+
   loadingHandle();
+  getUser();
   //
 });
 onUnmounted(() => {
