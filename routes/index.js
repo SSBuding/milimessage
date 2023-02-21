@@ -1,6 +1,7 @@
 
 const express = require("express")
 const controller = require('../controller/dbServer')
+
 // 创建router对象
 const router = express.Router()
 
@@ -40,5 +41,5 @@ router.post('/signip', (req, res) => {
         ip: ip
     })
 })
-router
+
 module.exports = router

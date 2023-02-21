@@ -1,6 +1,6 @@
 const express = require('express')
 const path = require('path')
-
+const ejs = require('ejs')
 // 引入配置
 const config = require('./config/default')
 // 引入路由
@@ -35,9 +35,27 @@ app.use('*', function (req, res, next) {
     }
 
 })
+const multer = require('multer')
+
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, './data/photo')
+    },
+    filename: function (req, file, cb) {
+
+        let type = file.originalname.replace(/.+\./, ".")
+        cb(null, file.fieldname + '-' + Date.now() + Math.floor(Math.random()) * 4 + type)
+    }
+
+})
+
+const upload = multer({ storage: storage })
+
+
 
 
 // 解析html视图
+//app.engine('html', ejs.__express)
 app.set("view engine", "ejs")
 // 配置模板的路径
 app.set("views", path.resolve(__dirname, "views"))
@@ -48,6 +66,13 @@ app.use(express.urlencoded({ extended: true }))
 
 // 挂载全局路由
 app.use('/', router)
+
+app.post('/profile', upload.single('file'), function (req, res, next) {
+
+    let name = req.file.filename
+    let imgurl = '/data/photo/' + name
+    res.send(imgurl)
+})
 
 
 
