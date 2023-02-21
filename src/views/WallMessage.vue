@@ -22,7 +22,7 @@
     </div>
     <div class="card" v-show="id == 0">
       <NoteCard
-        v-for="(e, index) in data"
+        v-for="(e, index) in note"
         :key="index"
         :note="e"
         class="card-inner"
@@ -39,6 +39,19 @@
         @click="selectedCard(index)"
       ></PhotoCard>
     </div>
+    <!-- 卡片状态 -->
+    <div class="none-msg" v-if="isOk === 0">
+      <img :src="none[id].url" />
+      <p>{{ none[id].msg }}</p>
+    </div>
+    <!-- loading动画 -->
+    <div class="loading" v-show="isOk === -1">
+      <div id="lottie"></div>
+      <p>加载中...</p>
+    </div>
+    <!-- 没有更多 -->
+    <p class="bottom-tip" v-show="isOk === 2">没有更多了...</p>
+
     <div
       class="add"
       :style="{ bottom: addBottom + 'px' }"
@@ -54,7 +67,7 @@
         v-if="cardSelected === -1"
         @click-bt="clickBt"
       ></NewCard>
-      <CardDetail v-else :note="data[cardSelected]"></CardDetail>
+      <CardDetail v-else :note="note[cardSelected]"></CardDetail>
     </MlModal>
     <MlViewer
       :isView="view"
@@ -67,8 +80,16 @@
 
 <script setup>
 import "@/assets/fonts/icon/iconfont.css";
-import { ref, reactive, computed, onMounted, onUnmounted, watch } from "vue";
-import { wallType, label } from "@/utils/data";
+import {
+  ref,
+  reactive,
+  computed,
+  onMounted,
+  onUnmounted,
+  watch,
+  nextTick,
+} from "vue";
+import { wallType, label, none } from "@/utils/data";
 // import { getAssetsFile } from "@/utils/imgurl";
 import NoteCard from "@/components/NoteCard.vue";
 import PhotoCard from "@/components/PhotoCard.vue";
@@ -76,15 +97,18 @@ import MlModal from "@/components/MlModal.vue";
 import NewCard from "@/components/NewCard.vue";
 import MlViewer from "@/components/MlViewer.vue";
 import CardDetail from "@/components/CardDetail.vue";
-import { note, photo } from "../../mock/index";
+import { photo } from "../../mock/index";
+import lottie from "lottie-web";
+import loading from "@/assets/images/reveal-loading.json";
 import { useRoute } from "vue-router";
 const route = useRoute();
-
+const note = ref("");
+// 是否加载中
+const isOk = ref(-1);
 // 留言墙和照片墙的切换id
 const id = computed(() => {
   return route.query.id;
 });
-const { data } = note;
 
 const nlabel = ref(-1);
 const addBottom = ref(30);
@@ -125,7 +149,7 @@ const changeModal = () => {
   }
 };
 const clickBt = (e) => {
-  console.log(e);
+  //console.log(e);
 };
 // 选择卡片
 const cardSelected = ref(-1);
@@ -164,9 +188,25 @@ watch(id, () => {
   view.value = false;
   cardSelected.value = -1;
 });
+const loadingHandle = () => {
+  if (isOk.value === -1) {
+    nextTick(async () => {
+      let params1 = {
+        container: document.getElementById("lottie"),
+        renderer: "svg",
+        loop: true,
+        autoplay: true,
+        animationData: loading,
+      };
+      lottie.loadAnimation(params1);
+    });
+  }
+};
+
 onMounted(() => {
   window.addEventListener("scroll", scrollBottom);
   getPhoto();
+  loadingHandle();
   //
 });
 onUnmounted(() => {
@@ -266,6 +306,42 @@ onUnmounted(() => {
       color: @gray-10;
       font-size: 24px;
     }
+  }
+  .none-msg {
+    width: 100%;
+    text-align: center;
+    padding-top: 80px;
+    position: absolute;
+    top: 280px;
+    img {
+      display: inline;
+    }
+    p {
+      font-family: serif;
+      font-weight: 700;
+      font-size: 24px;
+      color: @gray-3;
+    }
+  }
+  .loading {
+    text-align: center;
+    width: 100%;
+    p {
+      margin-top: -10px;
+      font-family: serif;
+      font-size: 24px;
+      color: @gray-3;
+    }
+  }
+  #lottie {
+    margin-top: 20px;
+    height: 200px;
+  }
+
+  .bottom-tip {
+    text-align: center;
+    color: @gray-3;
+    padding: 20px;
   }
 }
 </style>

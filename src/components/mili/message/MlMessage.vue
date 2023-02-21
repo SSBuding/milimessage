@@ -95,13 +95,13 @@ onMounted(() => {
     color: @gray-1;
     background: @gray-10;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
-  }
-  i {
-    margin-right: 6px;
-    vertical-align: middle;
-  }
-  .text {
-    vertical-align: middle;
+    i {
+      margin-right: 6px;
+      vertical-align: middle;
+    }
+    .text {
+      vertical-align: middle;
+    }
   }
 }
 .icon-success {

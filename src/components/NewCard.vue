@@ -79,9 +79,10 @@ import "@/assets/fonts/icon/iconfont.css";
 import { cardColor, cardColor1, label } from "@/utils/data";
 import { getObjectURL } from "@/utils/mlsg";
 import MlButton from "./MlButton.vue";
-import { ref } from "vue";
+import { ref, inject } from "vue";
 import { useStore } from "@/store";
 import { insertWallApi } from "@/api";
+const $message = inject("$message");
 const store = useStore();
 const user = store.user;
 const props = defineProps({
@@ -126,6 +127,7 @@ const submit = () => {
     insertWallApi(data).then(() => {
       message.value = "";
       emit("click-bt", data);
+      $message({ type: "success", message: "感谢您的记录！" });
     });
   }
 };

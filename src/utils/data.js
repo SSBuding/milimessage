@@ -1,3 +1,5 @@
+import { getAssetsFile2 } from './imgurl'
+
 // 墙的性质
 export const wallType = [
     {
@@ -53,4 +55,15 @@ export const portrait = [
     'linear-gradient(180deg,#ffed48 0%,#fd9e16 100%',
     'linear-gradient(180deg,#ffdc83 0%,#f88816 100%',
     'linear-gradient(180deg,#ffba8d 0%,#eb6423 100%',
+]
+// 为空时显示
+export const none = [
+    {
+        url: getAssetsFile2('留言纸.svg'),
+        msg: '还没有留言,快贴上第一张吧'
+    },
+    {
+        url: getAssetsFile2('图片.svg'),
+        msg: '还没有照片,快贴上第一张吧'
+    }
 ]
