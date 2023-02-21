@@ -61,4 +61,8 @@ defineProps({
   background: none;
   color: @gray-1;
 }
+.notAllowed {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
 </style>

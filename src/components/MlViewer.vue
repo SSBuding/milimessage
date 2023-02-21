@@ -26,7 +26,7 @@
 <script setup>
 import "@/assets/fonts/icon/iconfont.css";
 import { getAssetsFile } from "@/utils/imgurl";
-import { computed, toRef } from "vue";
+// import { computed, toRef } from "vue";
 
 defineProps({
   photos: {

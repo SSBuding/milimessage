@@ -8,10 +8,10 @@
 
       <p class="label">{{ label[note.type][note.label] }}</p>
     </div>
-    <p class="message">{{ note.message }}</p>
+    <p class="message" @click="toDetail">{{ note.message }}</p>
     <div class="foot">
       <div class="foot-left">
-        <div class="icon">
+        <div class="icon" @click="clickLike">
           <span
             class="iconfont icon-aixin1"
             :class="{ islike: note.like[0].count > 0 }"
@@ -19,9 +19,9 @@
           <span class="value">{{ note.like[0].count }}</span>
         </div>
 
-        <div class="icon">
+        <div class="icon" v-show="note.comcount[0].count > 0">
           <span class="iconfont icon-liuyan"></span>
-          <span class="value">{{ note.comment }}</span>
+          <span class="value">{{ note.comcount[0].count }}</span>
         </div>
       </div>
       <div class="name">{{ note.name }}</div>
@@ -31,15 +31,41 @@
 
 <script setup>
 import "@/assets/fonts/icon/iconfont.css";
-
+import { insertFeedbackApi } from "@/api";
 import { label, cardColor } from "@/utils/data";
 import { dataOne } from "@/utils/mlsg";
-defineProps({
+// import { onMounted } from "vue";
+import { useStore } from "@/store";
+const store = useStore();
+const props = defineProps({
   width: {
     default: "288px",
   },
-  note: Object,
+  note: {
+    default: {},
+  },
 });
+const user = store.user;
+
+const emit = defineEmits(["to-detail"]);
+const toDetail = () => {
+  emit("to-detail");
+};
+
+const clickLike = () => {
+  if (props.note.islike[0].count == 0) {
+    let data = {
+      wallId: props.note.id,
+      userId: user.id,
+      type: 0,
+      moment: new Date(),
+    };
+    insertFeedbackApi(data).then(() => {
+      props.note.like[0].count++;
+      props.note.islike[0].count++;
+    });
+  }
+};
 </script>
 
 <style lang="less" scoped>

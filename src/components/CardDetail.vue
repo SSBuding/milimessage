@@ -6,15 +6,21 @@
     </div>
     <NoteCard :note="note"></NoteCard>
     <div class="form">
-      <textarea class="message" placeholder="请输入..."></textarea>
+      <textarea
+        class="message"
+        placeholder="请输入..."
+        v-model="message"
+      ></textarea>
       <div class="bt">
-        <input type="text" class="name" placeholder="签名" />
-        <MlButton>评论</MlButton>
+        <input type="text" class="name" placeholder="签名" v-model="name" />
+        <MlButton :class="{ notAllowed: !isDis }" @click="submit"
+          >发布</MlButton
+        >
       </div>
     </div>
-    <p class="title">评论{{ note.comment }}</p>
+    <p class="title">评论{{ note.comcount[0].count }}</p>
     <div class="comment">
-      <div class="comment-li" v-for="(e, index) in data" :key="index">
+      <div class="comment-li" v-for="(e, index) in comments" :key="index">
         <div
           class="user-head"
           :style="{ backgroundImage: portrait[e.imgurl] }"
@@ -24,9 +30,10 @@
             <p class="m-name">{{ e.name }}</p>
             <p class="m-time">{{ dataOne(e.moment) }}</p>
           </div>
-          <div class="mm">{{ e.message }}</div>
+          <div class="mm">{{ e.comment }}</div>
         </div>
       </div>
+      <p class="more" @click="getComment" v-show="nowPage > 0">加载更多</p>
     </div>
   </div>
 </template>
@@ -34,14 +41,86 @@
 <script setup>
 import NoteCard from "./NoteCard.vue";
 import MlButton from "./MlButton.vue";
-import { comment } from "../../mock";
+
 import { portrait } from "@/utils/data";
 import { dataOne } from "@/utils/mlsg";
-const { data } = comment;
-defineProps({
+
+import { computed, ref, onMounted, inject, watch } from "vue";
+import { useStore } from "@/store";
+import { insertCommentApi, findCommentPageApi } from "@/api";
+
+const $message = inject("$message");
+const store = useStore();
+const user = store.user;
+const comments = ref([]);
+const nowPage = ref(1);
+const pagesize = ref(8);
+const props = defineProps({
   note: {
     default: {},
   },
+});
+const name = ref("匿名");
+const message = ref("");
+
+const isDis = computed(() => {
+  if (message.value && name.value) {
+    return true;
+  } else {
+    return false;
+  }
+});
+
+const submit = () => {
+  if (isDis) {
+    let img = Math.floor(Math.random() * 14);
+
+    let data = {
+      wallId: props.note.id,
+      userId: user.id,
+      imgurl: img,
+      moment: new Date(),
+      name: name.value,
+      comment: message.value,
+    };
+    insertCommentApi(data).then(() => {
+      comments.value.unshift(data);
+      props.note.comcount[0].count++;
+      message.value = "";
+    });
+    $message({ type: "success", message: "发布成功" });
+  }
+};
+
+// 获取评论
+const getComment = () => {
+  if (pagesize.value > 0) {
+    let data = {
+      id: props.note.id,
+      page: nowPage.value,
+      pagesize: pagesize.value,
+    };
+    findCommentPageApi(data).then((res) => {
+      comments.value = comments.value.concat(res.message);
+
+      if (res.message.length == pagesize.value) {
+        nowPage.value++;
+      } else {
+        nowPage.value = 0;
+      }
+    });
+  }
+};
+watch(
+  () => props.note,
+  () => {
+    nowPage.value = 1;
+    comments.value = [];
+    getComment();
+  }
+);
+onMounted(() => {
+  getComment();
 });
 </script>
 
@@ -128,6 +207,12 @@ defineProps({
     .mm {
       padding-top: @padding-4;
     }
+  }
+  .more {
+    color: @gray-2;
+    text-align: center;
+    cursor: pointer;
+    margin: 20px;
   }
 }
 </style>

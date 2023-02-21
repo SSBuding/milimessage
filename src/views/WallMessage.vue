@@ -27,7 +27,7 @@
         :note="e"
         class="card-inner"
         :class="{ cardSelected: index === cardSelected }"
-        @click="selectedCard(index)"
+        @to-detail="selectedCard(index)"
       ></NoteCard>
     </div>
     <div class="photo" v-show="id == 1">
@@ -67,7 +67,7 @@
         v-if="cardSelected === -1"
         @click-bt="clickBt"
       ></NewCard>
-      <CardDetail v-else :note="note[cardSelected]"></CardDetail>
+      <CardDetail v-else :note="cards[cardSelected]"></CardDetail>
     </MlModal>
     <MlViewer
       :isView="view"
