@@ -31,14 +31,13 @@
       ></NoteCard>
     </div>
     <div class="photo" v-show="id == 1">
-      <!-- <PhotoCard
+      <PhotoCard
         :photo="e"
         class="photo-card"
         v-for="(e, index) in cards"
         :key="index"
-        @click="selectedCard(index)"
-      ></PhotoCard> -->
-      <p>开发者遇到bug,正在努力修复中</p>
+        @to-detail="selectedCard(index)"
+      ></PhotoCard>
     </div>
     <!-- 卡片状态 -->
     <div class="none-msg" v-if="isOk === 0">
