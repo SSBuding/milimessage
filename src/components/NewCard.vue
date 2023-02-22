@@ -82,7 +82,7 @@ import { getObjectURL } from "@/utils/mlsg";
 import MlButton from "./MlButton.vue";
 import { ref, inject } from "vue";
 import { useStore } from "@/store";
-import { insertWallApi, profileApi } from "@/api";
+import { insertWallApi, uploadApi } from "@/api";
 const $message = inject("$message");
 const store = useStore();
 const user = store.user;
@@ -157,7 +157,7 @@ const updatePhoto = (data) => {
   if (file.files.length > 0) {
     let formData = new FormData();
     formData.append("file", file.files[0]);
-    profileApi(formData).then((res) => {
+    uploadApi(formData).then((res) => {
       data.imgurl = res;
       insertWallApi(data).then((result) => {
         let cardData = {

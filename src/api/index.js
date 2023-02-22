@@ -12,4 +12,4 @@ export const insertCommentApi = data => service.post('/insertcomment', data)
 
 export const findCommentPageApi = data => service.post('/findcommentpage', data)
 
-export const profileApi = data => service.post('/profile', data)
+export const uploadApi = data => service.post('/upload', data)
