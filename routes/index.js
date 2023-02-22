@@ -7,7 +7,7 @@ const router = express.Router()
 
 router.get('/test', (req, res) => {
     // 测试
-    res.send("<h1>您访问的地址已被外星人劫持！</h1>")
+    res.render("test")
 })
 router.post('/insertwall', (req, res) => {
     controller.insertWall(req, res)
@@ -37,9 +37,10 @@ router.post('/findcommentpage', (req, res) => {
 router.post('/signip', (req, res) => {
     let ip = req.ip
     res.send({
-        code: 200,
+
         ip: ip
     })
 })
+
 
 module.exports = router

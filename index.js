@@ -1,6 +1,7 @@
 const express = require('express')
 const path = require('path')
-const ejs = require('ejs')
+// const ejs = require('ejs')
+
 // 引入配置
 const config = require('./config/default')
 // 引入路由
@@ -11,8 +12,9 @@ const router = require(('./routes/index'))
 const app = express()
 
 // 获取静态路径
-app.use(express.static(path.resolve(__dirname + './dist')))
-app.use(express.static(path.resolve(__dirname + './data')))
+//path.resolve(__dirname + './data'))
+//app.use(express.static(path.resolve(__dirname + './dist')))
+app.use(express.static('data'))
 
 // 设置允许跨域访问该服务
 app.use('*', function (req, res, next) {
@@ -35,21 +37,9 @@ app.use('*', function (req, res, next) {
     }
 
 })
-const multer = require('multer')
 
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, './data/photo')
-    },
-    filename: function (req, file, cb) {
 
-        let type = file.originalname.replace(/.+\./, ".")
-        cb(null, file.fieldname + '-' + Date.now() + Math.floor(Math.random()) * 4 + type)
-    }
 
-})
-
-const upload = multer({ storage: storage })
 
 
 
@@ -67,13 +57,7 @@ app.use(express.urlencoded({ extended: true }))
 // 挂载全局路由
 app.use('/', router)
 
-app.post('/profile', upload.single('file'), function (req, res, next) {
-
-    let name = req.file.filename
-    let imgurl = '/data/photo/' + name
-    res.send(imgurl)
-})
-
+require('./data/uploadFile')(app)
 
 
 // 监听端口
