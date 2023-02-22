@@ -17,7 +17,7 @@
         name="file"
         id="file"
         accept="image/*"
-        multiple="true"
+        multiple="multiple"
         @change="showPhoto"
       />
       <div class="add-bt" v-if="url == ''">
@@ -123,11 +123,17 @@ const submit = () => {
     color: 5,
     imgurl: "",
   };
-  if (message.value && props.id == 0) {
+  if (data.message && data.type == 0) {
     data.color = colorSelected.value;
     insertWallApi(data).then((res) => {
       let cardData = {
-        ...data,
+        type: 0,
+        message: data.message,
+        name: data.name,
+        userId: data.userId,
+        moment: data.moment,
+        label: data.label,
+        imgurl: "",
         color: colorSelected.value,
         id: res.message.insertId,
         islike: [{ count: 0 }],
@@ -156,20 +162,23 @@ const updatePhoto = (data) => {
   let file = document.getElementById("file");
   if (file.files.length > 0) {
     let formData = new FormData();
-    formData.append("file", file.files[0]);
+    formData.append("photo", file.files[0]);
+    //console.log(formData);
+    // 提交后端
     uploadApi(formData).then((res) => {
+      //console.log(res);
       data.imgurl = res;
+      // 数据库
       insertWallApi(data).then((result) => {
         let cardData = {
-          type: props.id,
-          message: message.value,
-          name: name.value,
-          userId: user.id,
-          moment: new Date(),
-          label: labelSelected.value,
+          type: 1,
+          message: data.message,
+          name: data.name,
+          userId: data.userId,
+          moment: data.moment,
+          label: data.label,
           color: 5,
-          imgurl: data.imgurl,
-
+          imgurl: res,
           id: result.message.insertId,
           islike: [{ count: 0 }],
           like: [{ count: 0 }],
@@ -177,9 +186,9 @@ const updatePhoto = (data) => {
           report: [{ count: 0 }],
           revoke: [{ count: 0 }],
         };
+        //console.log(cardData);
         emit("click-bt", cardData);
         message.value = "";
-
         $message({ type: "success", message: "感谢您的记录！" });
       });
     });

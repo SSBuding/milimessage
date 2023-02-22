@@ -31,14 +31,17 @@
       ></NoteCard>
     </div>
     <div class="photo" v-show="id == 1">
-      <PhotoCard
-        :photo="e"
+      <!-- <PhotoCard
+        :photos="e"
         class="photo-card"
         v-for="(e, index) in cards"
         :key="index"
         @to-detail="selectedCard(index)"
-      ></PhotoCard>
+      ></PhotoCard> -->
     </div>
+    <p style="color: red; text-align: center" v-show="id == 1">
+      照片墙出现了bug,正在努力解决中
+    </p>
     <!-- 卡片状态 -->
     <div class="none-msg" v-if="isOk === 0">
       <img :src="none[id].url" />
@@ -116,9 +119,7 @@ const isOk = ref(-1);
 const id = computed(() => {
   return route.query.id;
 });
-const user = computed(() => {
-  return store.user;
-});
+const user = store.user;
 
 const nlabel = ref(-1);
 const addBottom = ref(30);
@@ -187,7 +188,7 @@ const selectedCard = (index) => {
     }
   }
 };
-const photoArr = reactive([]);
+const photoArr = ref([]);
 
 const viewSwitch = (e) => {
   if (e == 0) {
@@ -207,21 +208,22 @@ const getWallCard = (id) => {
   if (page.value > 0) {
     isOk.value = -1;
     let data = {
-      type: id,
       page: page.value,
       pagesize: pagesize.value,
+      type: id,
       userId: user.id,
       label: nlabel.value,
     };
     findWallPageApi(data).then((res) => {
-      cards.value = cards.value.concat(res.message);
+      //console.log(res);
+      let resCards = cards.value.concat(res.message);
       if (res.message.length) {
         page.value++;
       } else {
         page.value = 0;
       }
       setTimeout(() => {
-        if (cards.value.length > 0) {
+        if (resCards.length > 0) {
           isOk.value = 1;
           if (page.value == 0) {
             isOk.value = 2;
@@ -230,10 +232,12 @@ const getWallCard = (id) => {
           isOk.value = 0;
         }
       }, 10);
+      //console.log(resCards);
 
       if (id == 1) {
-        for (let i = 0; i < cards.value.length; i++) {
-          photoArr.push(cards.value[i].imgurl);
+        for (let i = 0; i < resCards.length; i++) {
+          photoArr.value.push(resCards[i].imgurl);
+          // console.log(photoArr.value);
         }
       }
     });
@@ -241,7 +245,7 @@ const getWallCard = (id) => {
 };
 const getUser = () => {
   let timer = setInterval(() => {
-    if (user.value) {
+    if (user) {
       clearInterval(timer);
       getWallCard(id.value);
     }
@@ -268,6 +272,7 @@ onMounted(() => {
 
   loadingHandle();
   getUser();
+  // getWallCard(id.value);
   //
 });
 onUnmounted(() => {

@@ -28,9 +28,9 @@ import "@/assets/fonts/icon/iconfont.css";
 // import { getAssetsFile } from "@/utils/imgurl";
 // import { computed, toRef } from "vue";
 import { baseUrl } from "@/utils/env";
-defineProps({
+const props = defineProps({
   photos: {
-    default: [],
+    default: {},
   },
   nowNumber: {
     type: Number,
@@ -44,6 +44,7 @@ const emit = defineEmits(["view-switch"]);
 const changeNumber = (e) => {
   emit("view-switch", e);
 };
+//console.log(props.nowNumber);
 </script>
 
 <style lang="less" scoped>
