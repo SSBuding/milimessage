@@ -78,8 +78,10 @@ exports.deleteComment = async (req, res) => {
 // 分页查询wall并获取点赞，举报，撤销数据
 exports.findWallPage = async (req, res) => {
     const data = req.body
+
     await db.findWallPage(data.page, data.pagesize, data.type, data.label)
         .then(async (result) => {
+            // console.log(result)
             for (let i = 0; i < result.length; i++) {
                 // 查找相应墙的点赞，举报，撤销数据
                 // 喜欢
@@ -92,8 +94,11 @@ exports.findWallPage = async (req, res) => {
                 result[i].islike = await db.likeCount(result[i].id, data.userId)
                 // 评论数
                 result[i].comcount = await db.commentCount(result[i].id)
+                // 图片
+                // result[i].imgurl = await db.findImgUrl(result[i].id)
 
             }
+            // console.log(result)
             res.send({
                 code: 200,
                 message: result

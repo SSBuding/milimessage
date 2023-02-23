@@ -14,7 +14,7 @@ const app = express()
 // 获取静态路径
 //path.resolve(__dirname + './data'))
 //app.use(express.static(path.resolve(__dirname + './dist')))
-app.use(express.static('data'))
+app.use(express.static('./data'))
 
 // 设置允许跨域访问该服务
 app.use('*', function (req, res, next) {
@@ -38,12 +38,6 @@ app.use('*', function (req, res, next) {
 
 })
 
-
-
-
-
-
-
 // 解析html视图
 //app.engine('html', ejs.__express)
 app.set("view engine", "ejs")
@@ -57,7 +51,7 @@ app.use(express.urlencoded({ extended: true }))
 // 挂载全局路由
 app.use('/', router)
 
-require('./data/uploadFile')(app)
+require('./routes/uploadFile')(app)
 
 
 // 监听端口
