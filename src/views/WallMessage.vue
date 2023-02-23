@@ -31,13 +31,13 @@
       ></NoteCard>
     </div>
     <div class="photo" v-show="id == 1">
-      <!-- <PhotoCard
+      <PhotoCard
         :photos="e"
         class="photo-card"
         v-for="(e, index) in cards"
         :key="index"
         @to-detail="selectedCard(index)"
-      ></PhotoCard> -->
+      ></PhotoCard>
     </div>
     <p style="color: red; text-align: center" v-show="id == 1">
       照片墙出现了bug,正在努力解决中
@@ -197,12 +197,18 @@ const viewSwitch = (e) => {
     cardSelected.value++;
   }
 };
-watch(id, () => {
-  modal.value = false;
-  nlabel.value = -1;
-  view.value = false;
-  cardSelected.value = -1;
-});
+watch(
+  id,
+  () => {
+    modal.value = false;
+    nlabel.value = -1;
+    view.value = false;
+    cardSelected.value = -1;
+  },
+  {
+    deep: true,
+  }
+);
 // 获取卡片
 const getWallCard = (id) => {
   if (page.value > 0) {
@@ -272,7 +278,7 @@ onMounted(() => {
 
   loadingHandle();
   getUser();
-  // getWallCard(id.value);
+  getWallCard(id.value);
   //
 });
 onUnmounted(() => {
